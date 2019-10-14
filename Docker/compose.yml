@@ -1,0 +1,20 @@
+version: '1'
+services:
+    skillEnza:
+        container_name: skillEnza
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: skillEnza:latest
+        expose:
+            - 8080
+        networks:
+            - skillEnza-network
+        volumes:
+            - skillEnza:/var/logs/
+networks:
+    skillEnza-network:
+        driver: bridge
+volumes:
+    skillEnza:
+        external: true
