@@ -14,7 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- * The persistent class for the "survey_answers" database table.
+ * The persistent class for the "skillsurvey_answers" database table.
  * 
  */
 

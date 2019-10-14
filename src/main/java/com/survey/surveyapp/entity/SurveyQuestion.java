@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * The persistent class for the "survey_questions" database table.
+ * The persistent class for the "skillsurvey_questions" database table.
  * 
  */
 /**
@@ -54,8 +54,12 @@ public class SurveyQuestion implements Serializable {
 	private List<SurveyQuestionOption> surveyQuestionOptions;
 
 	// bi-directional many-to-one association to SurveyDetail
-	@ManyToOne(cascade= CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn(name = "skillsurveyId", referencedColumnName = "id"/*, nullable = false, insertable = true, updatable = false*/)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name = "skillsurveyId", referencedColumnName = "id"/*
+																	 * , nullable = false,
+																	 * insertable = true,
+																	 * updatable = false
+																	 */)
 	private SurveyDetail surveyDetail;
 
 	// bi-directional many-to-one association to SurveyInputType

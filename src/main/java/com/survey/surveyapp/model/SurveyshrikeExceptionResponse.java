@@ -1,4 +1,5 @@
 package com.survey.surveyapp.model;
+
 /**
  * @author Harsh Jain
  *

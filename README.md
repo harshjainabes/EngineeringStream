@@ -1,8 +1,10 @@
-# Project Title
-
 SurveyApp
 This application helps users to create surveys.
 Once survey is created, survey can be opened to all and their feedback can be collected for analysis purposes
+
+![alt-text](https://github.com/harshjainabes/EngineeringStream/Architecture_diagram.PNG)
+
+
 ## Getting Started
 
 SurveyApp is a springboot application which exposes API endpoints to create surveys, activate/deactivate surveys, Read responses of a survey etc.

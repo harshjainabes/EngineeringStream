@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.survey.surveyapp.entity.SurveyDetail;
 import com.survey.surveyapp.entity.UserDetail;
+import com.survey.surveyapp.model.Answer;
 import com.survey.surveyapp.model.Survey;
 import com.survey.surveyapp.model.SurveyshrikeException;
 import com.survey.surveyapp.model.UserInfo;
@@ -83,6 +85,57 @@ public class SurveyShrikeController {
 					email + " is not a valid user!!!");
 		}
 
+	}
+
+	@PostMapping(path = "/postSurveyAnswer", consumes = "application/json")
+	public String postSurveyAnswer(@RequestBody Answer surveyAnswer) throws Exception {
+
+		SurveyDetail surveyById = surveyDetailsService
+				.getSurveyById(surveyAnswer.getSurveyId());
+
+		UserDetail userDetails = userDetailsService
+				.findUserByEmail(surveyAnswer.getEmail());
+
+		if (null != surveyById) {
+			if (null != userDetails) {
+
+				surveyDetailsService.createSurveyAnswer(surveyAnswer, userDetails);
+				return "Surver answer posted successfully";
+			}
+			else {
+				throw new SurveyshrikeException(HttpStatus.FORBIDDEN.value(),
+						surveyAnswer.getEmail() + " is not a valid user!!!");
+			}
+		}
+		else {
+			throw new SurveyshrikeException(HttpStatus.FORBIDDEN.value(),
+					surveyAnswer.getSurveyId() + " is not a valid survey id!!!");
+		}
+	}
+
+	@GetMapping(path = "/getSurveyAnswerBySurveyIdAndUserEmail")
+	public Answer getSurveyAnswerBySurveyIdAndUserEmail(
+			@RequestParam("surveyId") int surveyId, @RequestParam("email") String email)
+			throws Exception {
+
+		SurveyDetail surveyById = surveyDetailsService.getSurveyById(surveyId);
+
+		UserDetail userDetails = userDetailsService.findUserByEmail(email);
+
+		if (null != surveyById) {
+			if (null != userDetails) {
+				return surveyDetailsService.getSurveyAnswerBySurveyIdAndEmail(surveyById,
+						userDetails);
+			}
+			else {
+				throw new SurveyshrikeException(HttpStatus.FORBIDDEN.value(),
+						email + " is not a valid user!!!");
+			}
+		}
+		else {
+			throw new SurveyshrikeException(HttpStatus.FORBIDDEN.value(),
+					surveyId + " is not a valid survey id!!!");
+		}
 	}
 
 }

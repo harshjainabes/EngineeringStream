@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.survey.surveyapp.entity.SurveyDetail;
+
 /**
  * @author Harsh Jain
  *
@@ -18,5 +19,7 @@ import com.survey.surveyapp.entity.SurveyDetail;
 public interface SurveyDetailRepository extends JpaRepository<SurveyDetail, Long> {
 
 	List<SurveyDetail> getSurveyDetailsByUserDetailEmail(String email);
+
+	SurveyDetail getSurveyDetailsById(int skillsurveyId);
 
 }

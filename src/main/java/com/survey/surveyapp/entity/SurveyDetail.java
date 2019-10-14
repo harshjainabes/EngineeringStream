@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * The persistent class for the "survey_details" database table.
+ * The persistent class for the "skillsurvey_details" database table.
  * 
  */
 /**

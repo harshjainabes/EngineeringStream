@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * The persistent class for the "survey_input_type" database table.
+ * The persistent class for the "skillsurvey_input_type" database table.
  * 
  */
 /**

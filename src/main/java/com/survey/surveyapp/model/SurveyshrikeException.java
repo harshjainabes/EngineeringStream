@@ -1,4 +1,5 @@
 package com.survey.surveyapp.model;
+
 /**
  * @author Harsh Jain
  *
@@ -11,7 +12,7 @@ public class SurveyshrikeException extends RuntimeException {
 	private int errorCode;
 
 	private String errorMessage;
-	
+
 	public SurveyshrikeException(int errorCode, String errorMessage) {
 		super();
 		this.errorCode = errorCode;

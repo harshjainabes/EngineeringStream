@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 /**
  * @author Harsh Jain
  *
@@ -24,6 +25,15 @@ public class Survey {
 	private String email;
 
 	private List<Question> question;
+	private int surveyId;
+
+	public int getSurveyId() {
+		return surveyId;
+	}
+
+	public void setSurveyId(int surveyId) {
+		this.surveyId = surveyId;
+	}
 
 	public List<Question> getQuestion() {
 		return question;

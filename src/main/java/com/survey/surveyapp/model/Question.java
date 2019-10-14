@@ -17,6 +17,16 @@ public class Question {
 
 	private List<QuestionOption> questionOption;
 
+	private int questionId;
+
+	public int getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
+	}
+
 	public String getQuestion() {
 		return question;
 	}

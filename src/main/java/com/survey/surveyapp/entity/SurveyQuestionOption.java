@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * The persistent class for the "survey_question_options" database table.
+ * The persistent class for the "skillsurvey_question_options" database table.
  * 
  */
 /**
