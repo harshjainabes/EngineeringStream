@@ -1,0 +1,57 @@
+#!/usr/bin/env groovy
+pipeline {
+    agent any
+    triggers {
+        pollSCM('*/15 * * * *')
+    }
+    options { disableConcurrentBuilds() }
+    stages {
+        stage('Permissions') {
+            steps {
+                sh 'chmod 775 *'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('Update Docker UAT image') {
+            when { branch "master" }
+            steps {
+                sh '''
+docker login -u "test" -p "test"
+                    docker build --no-cache -t survey .
+                    docker tag survey:latest
+                    docker push dockerhub/survey:latest
+docker rmi survey:latest
+                '''
+            }
+        }
+        stage('Update UAT container') {
+            when { branch "master" }
+            steps {
+                sh '''
+docker login -u "test" -p "test"
+                    docker pull dockerhub/survey:latest
+                    docker stop survey
+                    docker rm survey
+                    docker run -p 8008:8080 --name survey -t -d dockerhub/survey
+                    docker rmi -f $(docker images -q --filter dangling=true)
+                '''
+            }
+        }
+        stage('Release Docker image') {
+            when { buildingTag() }
+            steps {
+                sh '''
+docker login -u "test" -p "test"
+                    docker build --no-cache -t survey .
+                    docker tag survey:latest dockerhub/survey:${TAG_NAME}
+                    docker push dockerhub/survey:${TAG_NAME}
+docker rmi $(docker images -f “dangling=true” -q)
+               '''
+            }
+        }
+    }
+}

@@ -43,3 +43,34 @@ Pull the image from DTR and create a stack with any number of containers.
 
 Harsh Jain
 
+##  API Usage
+
+Use POST /surveyShrike/addUserInfo to create a user who can create a survey and give below data in the payload to create the survey
+
+{
+  "description": "test1",
+  "email": "harshjainabes@gmail.com",
+  "endDate": "2020-10-14T09:07:34.077Z",
+  "name": "test1",
+  "question": [
+    {
+      "answerRequired": true,
+      "inputType": 1,
+      "question": "what is your gender",
+      "questionOption": [
+        {
+          "optionChoiceName": "male"
+        },
+ {
+          "optionChoiceName": "female"
+        }
+
+      ]
+    }
+  ],
+  "startDate": "2019-10-14T09:07:34.078Z"
+}
+
+Use GET /surveyShrike/getAllSurvey to get list of all available surveys
+
+Use GET /surveyShrike/getSurveyByUser to get list of surveys for a particular user

@@ -1,4 +1,4 @@
-package com.survey.surveyapp;
+package com.survey.surveyapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

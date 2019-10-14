@@ -1,17 +1,17 @@
--- SCHEMA: survey
+-- SCHEMA: skillsurvey
 
-DROP SCHEMA survey ;
+DROP SCHEMA skillsurvey ;
 
-CREATE SCHEMA survey
+CREATE SCHEMA skillsurvey
     AUTHORIZATION postgres;
 
--- Table: survey.user_details
+-- Table: skillsurvey.user_details
 
-DROP TABLE survey.user_details;
+DROP TABLE skillsurvey.user_details;
 
-CREATE TABLE survey.user_details
+CREATE TABLE skillsurvey.user_details
 (
-    id integer NOT NULL DEFAULT nextval('survey.user_details_id_seq'::regclass),
+    id serial NOT NULL ,
     name text COLLATE pg_catalog."default",
     email text COLLATE pg_catalog."default",
     last_login date,
@@ -19,17 +19,17 @@ CREATE TABLE survey.user_details
     CONSTRAINT user_details_pkey PRIMARY KEY (id)
 );
 
-ALTER TABLE survey.user_details
+ALTER TABLE skillsurvey.user_details
     OWNER to postgres;
 	
 
--- Table: survey.survey_details
+-- Table: skillsurvey.skillsurvey_details
 
-DROP TABLE survey.survey_details;
+DROP TABLE skillsurvey.skillsurvey_details;
 
-CREATE TABLE survey.survey_details
+CREATE TABLE skillsurvey.skillsurvey_details
 (
-    id integer NOT NULL DEFAULT nextval('survey.survey_details_id_seq'::regclass),
+    id serial NOT NULL,
     name text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     start_date date,
@@ -37,100 +37,100 @@ CREATE TABLE survey.survey_details
     created_date date,
     created_by integer,
     isactive boolean,
-    CONSTRAINT survey_details_pkey PRIMARY KEY (id),
+    CONSTRAINT skillsurvey_details_pkey PRIMARY KEY (id),
     CONSTRAINT fk_user_details_id FOREIGN KEY (created_by)
-        REFERENCES survey.user_details (id) MATCH SIMPLE
+        REFERENCES skillsurvey.user_details (id) MATCH SIMPLE
         ON UPDATE RESTRICT
         ON DELETE NO ACTION
 );
 
-ALTER TABLE survey.survey_details
+ALTER TABLE skillsurvey.skillsurvey_details
     OWNER to postgres;
 	
--- Table: survey.survey_questions
+-- Table: skillsurvey.skillsurvey_questions
 
-DROP TABLE survey.survey_questions;
+DROP TABLE skillsurvey.skillsurvey_questions;
 
-CREATE TABLE survey.survey_questions
+CREATE TABLE skillsurvey.skillsurvey_questions
 (
-    id integer NOT NULL DEFAULT nextval('survey.survey_questions_id_seq'::regclass),
+    id serial ,
     question text COLLATE pg_catalog."default",
     input_type integer,
     answer_required boolean,
-    survey_id integer,
-    CONSTRAINT survey_questions_pkey PRIMARY KEY (id),
-    CONSTRAINT fk_survey_details_id FOREIGN KEY (survey_id)
-        REFERENCES survey.survey_details (id) MATCH SIMPLE
+    skillsurvey_id integer,
+    CONSTRAINT skillsurvey_questions_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_skillsurvey_details_id FOREIGN KEY (skillsurvey_id)
+        REFERENCES skillsurvey.skillsurvey_details (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-    CONSTRAINT fk_survey_input_type_id FOREIGN KEY (input_type)
-        REFERENCES survey.survey_input_type (id) MATCH SIMPLE
+    CONSTRAINT fk_skillsurvey_input_type_id FOREIGN KEY (input_type)
+        REFERENCES skillsurvey.skillsurvey_input_type (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
 
-ALTER TABLE survey.survey_questions
+ALTER TABLE skillsurvey.skillsurvey_questions
     OWNER to postgres;
 	
--- Table: survey.survey_question_options
+-- Table: skillsurvey.skillsurvey_question_options
 
-DROP TABLE survey.survey_question_options;
+DROP TABLE skillsurvey.skillsurvey_question_options;
 
-CREATE TABLE survey.survey_question_options
+CREATE TABLE skillsurvey.skillsurvey_question_options
 (
-    id integer NOT NULL DEFAULT nextval('survey.survey_question_options_id_seq'::regclass),
+    id serial,
     question_id integer,
     option_choice_name text COLLATE pg_catalog."default",
-    CONSTRAINT survey_question_options_pkey PRIMARY KEY (id),
-    CONSTRAINT fk_survey_questions_id FOREIGN KEY (question_id)
-        REFERENCES survey.survey_questions (id) MATCH SIMPLE
+    CONSTRAINT skillsurvey_question_options_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_skillsurvey_questions_id FOREIGN KEY (question_id)
+        REFERENCES skillsurvey.skillsurvey_questions (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
 
-ALTER TABLE survey.survey_question_options
+ALTER TABLE skillsurvey.skillsurvey_question_options
     OWNER to postgres;
 	
--- Table: survey.survey_input_type
+-- Table: skillsurvey.skillsurvey_input_type
 
-DROP TABLE survey.survey_input_type;
+DROP TABLE skillsurvey.skillsurvey_input_type;
 
-CREATE TABLE survey.survey_input_type
+CREATE TABLE skillsurvey.skillsurvey_input_type
 (
-    id integer NOT NULL DEFAULT nextval('survey.survey_input_type_id_seq'::regclass),
+    id serial,
     input_type_name text COLLATE pg_catalog."default",
-    CONSTRAINT survey_input_type_pkey PRIMARY KEY (id)
+    CONSTRAINT skillsurvey_input_type_pkey PRIMARY KEY (id)
 );
 
-ALTER TABLE survey.survey_input_type
+ALTER TABLE skillsurvey.skillsurvey_input_type
     OWNER to postgres;
 	
--- Table: survey.survey_answers
+-- Table: skillsurvey.skillsurvey_answers
 
-DROP TABLE survey.survey_answers;
+DROP TABLE skillsurvey.skillsurvey_answers;
 
-CREATE TABLE survey.survey_answers
+CREATE TABLE skillsurvey.skillsurvey_answers
 (
-    id integer NOT NULL DEFAULT nextval('survey.survey_answers_id_seq'::regclass),
+    id serial,
     answered_by integer,
     question_id integer,
     option_id integer,
     answer_text text COLLATE pg_catalog."default",
     isanswered boolean,
-    CONSTRAINT survey_answers_pkey PRIMARY KEY (id),
-    CONSTRAINT fk_survey_question_options_id FOREIGN KEY (option_id)
-        REFERENCES survey.survey_question_options (id) MATCH SIMPLE
+    CONSTRAINT skillsurvey_answers_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_skillsurvey_question_options_id FOREIGN KEY (option_id)
+        REFERENCES skillsurvey.skillsurvey_question_options (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-    CONSTRAINT fk_survey_questions_id FOREIGN KEY (question_id)
-        REFERENCES survey.survey_questions (id) MATCH SIMPLE
+    CONSTRAINT fk_skillsurvey_questions_id FOREIGN KEY (question_id)
+        REFERENCES skillsurvey.skillsurvey_questions (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT fk_user_details_id FOREIGN KEY (answered_by)
-        REFERENCES survey.user_details (id) MATCH SIMPLE
+        REFERENCES skillsurvey.user_details (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
 
-ALTER TABLE survey.survey_answers
+ALTER TABLE skillsurvey.skillsurvey_answers
     OWNER to postgres;
