@@ -24,11 +24,4 @@ public interface UserDetailsRepository extends JpaRepository<UserDetail, Long> {
 
 	UserDetail findFirstByEmail(String email);
 
-	SurveyDetail getSurveyById(int skillsurveyId);
-
-	void createSurveyAnswer(Answer surveyAnswer, UserDetail userDetails);
-
-	Answer getSurveyAnswerBySurveyIdAndEmail(SurveyDetail surveyById,
-			UserDetail userDetails);
-
 }

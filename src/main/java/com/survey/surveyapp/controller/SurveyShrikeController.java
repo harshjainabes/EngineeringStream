@@ -22,6 +22,11 @@ import com.survey.surveyapp.model.UserInfo;
 import com.survey.surveyapp.service.SurveyDetailsService;
 import com.survey.surveyapp.service.UserDetailsService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 /**
  * @author Harsh Jain
  *
@@ -31,6 +36,7 @@ import com.survey.surveyapp.service.UserDetailsService;
 @RestController
 @RequestMapping(path = "/surveyShrike")
 @CrossOrigin(origins = "*")
+@Api(description = "Survey Controller", tags = { "Survey Controller" })
 public class SurveyShrikeController {
 
 	@Autowired
@@ -41,6 +47,14 @@ public class SurveyShrikeController {
 
 	Logger logger = Logger.getLogger(SurveyShrikeController.class.getName());
 
+	@ApiOperation(value = "Use this end point to add a user")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "User Added Successfully"),
+			@ApiResponse(code = 400, message = "Bad Request, this request is malfornmed"),
+			@ApiResponse(code = 401, message = "Authentication failed"),
+			@ApiResponse(code = 403, message = "Not enough rights"),
+			@ApiResponse(code = 404, message = "URL not found")
+
+	})
 	@PostMapping(path = "/addUserInfo", consumes = "application/json")
 	public String addUserDetails(@RequestBody UserInfo userInfo) throws Exception {
 
@@ -53,6 +67,15 @@ public class SurveyShrikeController {
 		return "user created";
 	}
 
+	@ApiOperation(value = "Use this end point to create a survey")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Survey Created Successfully"),
+			@ApiResponse(code = 400, message = "Bad Request, this request is malfornmed"),
+			@ApiResponse(code = 401, message = "Authentication failed"),
+			@ApiResponse(code = 403, message = "Not enough rights"),
+			@ApiResponse(code = 404, message = "URL not found")
+
+	})
 	@PostMapping(path = "/createSurvey", consumes = "application/json")
 	public String createSurvey(@RequestBody Survey survey) throws Exception {
 
@@ -69,11 +92,29 @@ public class SurveyShrikeController {
 		}
 	}
 
+	@ApiOperation(value = "Use this end point to get all surveys")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Survey Retreived Successfully"),
+			@ApiResponse(code = 400, message = "Bad Request, this request is malfornmed"),
+			@ApiResponse(code = 401, message = "Authentication failed"),
+			@ApiResponse(code = 403, message = "Not enough rights"),
+			@ApiResponse(code = 404, message = "URL not found")
+
+	})
 	@GetMapping(path = "/getAllSurvey")
 	public List<Survey> getSurveys() {
 		return surveyDetailsService.getAllSurveys();
 	}
 
+	@ApiOperation(value = "Use this end point to get surveys for a user")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Survey Retreived Successfully"),
+			@ApiResponse(code = 400, message = "Bad Request, this request is malfornmed"),
+			@ApiResponse(code = 401, message = "Authentication failed"),
+			@ApiResponse(code = 403, message = "Not enough rights"),
+			@ApiResponse(code = 404, message = "URL not found")
+
+	})
 	@GetMapping(path = "/getSurveyByUser")
 	public List<Survey> getSurveyByUser(@RequestParam("email") String email) {
 
@@ -87,6 +128,15 @@ public class SurveyShrikeController {
 
 	}
 
+	@ApiOperation(value = "Use this end point to respond to a survey")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Survey Responded Successfully"),
+			@ApiResponse(code = 400, message = "Bad Request, this request is malfornmed"),
+			@ApiResponse(code = 401, message = "Authentication failed"),
+			@ApiResponse(code = 403, message = "Not enough rights"),
+			@ApiResponse(code = 404, message = "URL not found")
+
+	})
 	@PostMapping(path = "/postSurveyAnswer", consumes = "application/json")
 	public String postSurveyAnswer(@RequestBody Answer surveyAnswer) throws Exception {
 
@@ -113,6 +163,15 @@ public class SurveyShrikeController {
 		}
 	}
 
+	@ApiOperation(value = "Use this end point to get response to a survey for a user")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Survey Answer retreived Successfully"),
+			@ApiResponse(code = 400, message = "Bad Request, this request is malfornmed"),
+			@ApiResponse(code = 401, message = "Authentication failed"),
+			@ApiResponse(code = 403, message = "Not enough rights"),
+			@ApiResponse(code = 404, message = "URL not found")
+
+	})
 	@GetMapping(path = "/getSurveyAnswerBySurveyIdAndUserEmail")
 	public Answer getSurveyAnswerBySurveyIdAndUserEmail(
 			@RequestParam("surveyId") int surveyId, @RequestParam("email") String email)
